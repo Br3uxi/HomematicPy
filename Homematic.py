@@ -44,6 +44,35 @@ def getDevices(homematic_ip, session_id, interface):
     return r.json()
 
 
+def getValue(homematic_ip, session_id, interface, address, valueKey):
+    """
+        :param homematic_ip: The IP of the Homematic
+        :param session_id: The Session ID from the Login Method
+        :param interface: the interface you want to connect
+        :param address: the address of the device with the value you want to set
+        :param valueKey: the value of the key you want to set
+        :type homematic_ip: str
+        :type session_id: str
+        :type interface: str
+        :type address: str
+        :type valueKey: str
+        :rtype bool
+    """
+
+    data = {'method': 'Interface.getValue',
+            'params': {
+                '_session_id_': session_id,
+                'interface': interface,
+                'address': address,
+                'valueKey': valueKey
+            }
+            }
+
+    headers = {'Content-type': 'application/json;charset=utf-8'}
+    r = requests.post("http://" + homematic_ip + "/api/homematic.cgi", data=json.dumps(data), headers=headers)
+    return r.json()['result']
+
+
 def setValue(homematic_ip, session_id, interface, address, valueKey, type, value):
     """
         :param homematic_ip: The IP of the Homematic
@@ -77,8 +106,6 @@ def setValue(homematic_ip, session_id, interface, address, valueKey, type, value
     r = sendRequest("http://" + homematic_ip + "/api/homematic.cgi", json.dumps(data), headers)
     return r.json()['result']
 
-
-# BidCos-RF
 
 def listMethods(homematic_ip):
     """

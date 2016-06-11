@@ -20,6 +20,8 @@ else:
 # List methods
 print(Homematic.listMethods(homematic_ip))
 
+print(Homematic.getValue(homematic_ip, session_id, "BidCos-RF", "NEQ0153210:1", "STATE"))
+
 # Log out
 logout = Homematic.logout(homematic_ip, session_id)
 if logout:
