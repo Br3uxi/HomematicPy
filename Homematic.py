@@ -2,6 +2,11 @@ import requests
 import json
 
 
+def sendRequest(req, data, headers):
+    headers = {'Content-type': 'application/json;charset=utf-8'}
+    return requests.post(req, data=json.dumps(data), headers=headers)
+
+
 # Login
 def login(homematic_ip, username, password):
     """
@@ -15,8 +20,7 @@ def login(homematic_ip, username, password):
         :rtype str
     """
     data = {'method': 'Session.login', 'params': {'username': username, 'password': password}}
-    headers = {'Content-type': 'application/json;charset=utf-8'}
-    r = requests.post("http://" + homematic_ip + "/api/homematic.cgi", data=json.dumps(data), headers=headers)
+    r = sendRequest("http://" + homematic_ip + "/api/homematic.cgi", json.dumps(data), headers)
 
     the_json = r.json()
 
@@ -35,8 +39,7 @@ def getDevices(homematic_ip, session_id, interface):
         :rtype json
     """
     data = {'method': 'Device.listAllDetail', 'params': {'_session_id_': session_id, 'interface': interface}}
-    headers = {'Content-type': 'application/json;charset=utf-8'}
-    r = requests.post("http://" + homematic_ip + "/api/homematic.cgi", data=json.dumps(data), headers=headers)
+    r = sendRequest("http://" + homematic_ip + "/api/homematic.cgi", json.dumps(data), headers)
 
     return r.json()
 
@@ -71,8 +74,7 @@ def setValue(homematic_ip, session_id, interface, address, valueKey, type, value
             }
             }
 
-    headers = {'Content-type': 'application/json;charset=utf-8'}
-    r = requests.post("http://" + homematic_ip + "/api/homematic.cgi", data=json.dumps(data), headers=headers)
+    r = sendRequest("http://" + homematic_ip + "/api/homematic.cgi", json.dumps(data), headers)
     return r.json()['result']
 
 
@@ -88,8 +90,7 @@ def listMethods(homematic_ip):
     data = {'method': 'system.listMethods',
             'params': ''
             }
-    headers = {'Content-type': 'application/json;charset=utf-8'}
-    r = requests.post("http://" + homematic_ip + "/api/homematic.cgi", data=json.dumps(data), headers=headers)
+    r = sendRequest("http://" + homematic_ip + "/api/homematic.cgi", json.dumps(data), headers)
 
     return r.json()
 
@@ -102,7 +103,6 @@ def logout(homematic_ip, session_id):
         :rtype boolean
     """
     data = {'method': 'Session.logout', 'params': {'_session_id_': session_id}}
-    headers = {'Content-type': 'application/json;charset=utf-8'}
-    r = requests.post("http://" + homematic_ip + "/api/homematic.cgi", data=json.dumps(data), headers=headers)
+    r = sendRequest("http://" + homematic_ip + "/api/homematic.cgi", json.dumps(data), headers)
 
     return r.json()['result']
