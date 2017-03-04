@@ -1,4 +1,6 @@
-import Homematic
+import json
+
+from HomematicPy import Homematic
 
 homematic_ip = "192.168.0.4"
 
@@ -8,7 +10,7 @@ print(session_id)
 
 # GetDevices
 devices = Homematic.getDevices(homematic_ip, session_id, "BidCos-RF")
-print(devices)
+print(json.dumps(devices, sort_keys=True, indent=4))
 
 # Set Value
 value_set = Homematic.setValue(homematic_ip, session_id, "BidCos-RF", "NEQ0153210:1", "STATE", "boolean", "0")
