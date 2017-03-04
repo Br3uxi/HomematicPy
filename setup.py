@@ -14,7 +14,7 @@ setup(
     author="Jan Breuer",
     author_email="breuxi.innovations@gmail.com",
     description=("Easy Phyton Wrapper Library for Homematic Systems"),
-    license="GNU",
+    license="MIT",
     keywords="library homematic smarthome wrapper",
     url="http://github.com/Breuxi/HomematicPy",
     packages=['HomematicPy'],
